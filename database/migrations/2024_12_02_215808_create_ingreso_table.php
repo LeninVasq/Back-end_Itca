@@ -27,7 +27,7 @@ class CreateIngresoTable extends Migration
 
             // Definición de claves foráneas
             $table->foreign('id_producto')->references('id_producto')->on('productos')->onDelete('cascade');
-            $table->foreign('id_usuario')->references('id')->on('usuarios')->onDelete('cascade');
+            $table->foreign('id_usuario')->references('id_usuario')->on('users')->onDelete('cascade');
         });
     }
 

@@ -4,35 +4,35 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
+class CreateUsersTable extends Migration
 {
     /**
      * Run the migrations.
+     *
+     * @return void
      */
-    public function up(): void
+    public function up()
     {
-        Schema::create('usuario', function (Blueprint $table) {
-            $table->id('id_usuario'); 
-            $table->foreign('id_tipo_usuario') 
-                ->references('id')          
-                ->on('tipos_usuario')       
-                ->onDelete('cascade'); 
-            $table->string('correo')->unique();
-            $table->string('clave');
-            $table->string('token')->nullable();
-            $table->timestamp('email_verified_at')->nullable();
-            $table->timestamp('fecha_registro')->useCurrent(); 
-            $table->longText('img')->nullable();
-            $table->boolean('estado')->default(true); 
-            $table->timestamps(); 
+        Schema::create('users', function (Blueprint $table) {
+            $table->id('id_usuario'); // ID de usuario como clave primaria
+            $table->string('nombre_usuario'); // Nombre del usuario
+            $table->string('correo')->unique(); // Correo electrónico (único)
+            $table->string('clave'); // Clave de acceso
+            $table->string('token')->nullable(); // Token, puede ser nulo
+            $table->timestamp('fecha_registro')->useCurrent(); // Fecha de registro
+            $table->longText('img')->nullable(); // Imagen del usuario, puede ser nula
+            $table->boolean('estado')->default(true); // Estado del usuario (activo o inactivo)
+            $table->timestamps(); // Timestamps para created_at y updated_at
         });
     }
 
     /**
      * Reverse the migrations.
+     *
+     * @return void
      */
-    public function down(): void
+    public function down()
     {
-        Schema::dropIfExists('usuario');
+        Schema::dropIfExists('users');
     }
-};
+}

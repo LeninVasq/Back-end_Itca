@@ -11,8 +11,6 @@ class Usuario extends Authenticatable
     use HasFactory, Notifiable;
 
     /**
-     * The table associated with the model.
-     *
      * @var string
      */
     protected $table = 'usuario';

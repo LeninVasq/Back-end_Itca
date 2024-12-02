@@ -23,5 +23,6 @@ class AppServiceProvider extends ServiceProvider
     {
         // Establece la longitud predeterminada para las cadenas
         Schema::defaultStringLength(191);
+        Schema::enableForeignKeyConstraints();
     }
 }
