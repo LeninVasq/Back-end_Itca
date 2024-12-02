@@ -55,7 +55,7 @@ class userController extends Controller
 
     }
 
-    public function deletebyid($id){
+    public function destroy($id){
         $user = User::find($id);
         if(!$user){
             $data=[
@@ -77,7 +77,7 @@ class userController extends Controller
     }
 
 
-    public function findbyid($id){
+    public function show($id){
         $user = User::find($id);
         if(!$user){
             $data=[
@@ -95,7 +95,7 @@ class userController extends Controller
         ];
         return response()->json($data,200);
     }
-    public function createuser(Request $request)
+    public function store(Request $request)
     {
         
       $validation =  Validator::make($request->all(), [
@@ -144,7 +144,7 @@ class userController extends Controller
     }
 
 
-    public function finduser(){
+    public function index(){
         $data=[];
        $user = User::all();
        if($user->isEmpty()){
