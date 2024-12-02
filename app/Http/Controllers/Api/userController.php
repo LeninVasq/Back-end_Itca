@@ -12,31 +12,32 @@ class userController extends Controller
 {
 
 
-    public function update(Request $request,$id){
+    public function update(Request $request, $id)
+    {
         $user = User::find($id);
-        if(!$user){
-            $data=[
-                'message'=>'El usuario no existe',
+        if (!$user) {
+            $data = [
+                'message' => 'El usuario no existe',
                 'status' => 404
-    
+
             ];
-            return response()->json($data,404);
+            return response()->json($data, 404);
         }
 
         $validation =  Validator::make($request->all(), [
             'name' => 'required',
             'email' => 'required|email|unique:users',
             'password' => 'required|min:8',
-           ]);
-    
-        if($validation->fails()){
-         
-        $data=[
-        'message'=>'Error en la validation de datos',
-        'error' => $validation->errors(),
-        'status' => 400
-        ];
-        return response()->json($data,400);
+        ]);
+
+        if ($validation->fails()) {
+
+            $data = [
+                'message' => 'Error en la validation de datos',
+                'error' => $validation->errors(),
+                'status' => 400
+            ];
+            return response()->json($data, 400);
         }
 
         $user->name = $request->name;
@@ -44,123 +45,122 @@ class userController extends Controller
         $user->password = $request->password;
 
         $user->save();
-        $data=[
-            'message'=>'Usuario actualizado',
+        $data = [
+            'message' => 'Usuario actualizado',
             'status' => 200
 
         ];
-        return response()->json($data,200);
-
-
-
+        return response()->json($data, 200);
     }
 
-    public function deletebyid($id){
+    public function destroy($id)
+    {
         $user = User::find($id);
-        if(!$user){
-            $data=[
-                'message'=>'El usuario no existe',
+        if (!$user) {
+            $data = [
+                'message' => 'El usuario no existe',
                 'status' => 404
-    
+
             ];
-            return response()->json($data,404);
+            return response()->json($data, 404);
         }
 
         $user->delete();
 
-        $data=[
-            'message'=> "Usuario eliminado",
+        $data = [
+            'message' => "Usuario eliminado",
             'status' => 200
 
         ];
-        return response()->json($data,200);
+        return response()->json($data, 200);
     }
 
 
-    public function findbyid($id){
+    public function show($id)
+    {
         $user = User::find($id);
-        if(!$user){
-            $data=[
-                'message'=>'El usuario no existe',
+        if (!$user) {
+            $data = [
+                'message' => 'El usuario no existe',
                 'status' => 404
-    
+
             ];
-            return response()->json($data,404);
+            return response()->json($data, 404);
         }
 
-        $data=[
-            'message'=>$user,
+        $data = [
+            'message' => $user,
             'status' => 200
 
         ];
-        return response()->json($data,200);
+        return response()->json($data, 200);
     }
-    public function createuser(Request $request)
+
+    
+    public function store(Request $request)
     {
-        
-      $validation =  Validator::make($request->all(), [
-        'name' => 'required',
-        'email' => 'required|email|unique:users',
-        'password' => 'required|min:8',
-       ]);
 
-       if($validation->fails()){
-     
-        $data=[
-            'message'=>'Error en la validation de datos',
-            'error' => $validation->errors(),
-            'status' => 400
+        $validation =  Validator::make($request->all(), [
+            'name' => 'required',
+            'email' => 'required|email|unique:users',
+            'password' => 'required|min:8',
+        ]);
 
-        ];
-        return response()->json($data,400);
+        if ($validation->fails()) {
 
-       }
-       
+            $data = [
+                'message' => 'Error en la validation de datos',
+                'error' => $validation->errors(),
+                'status' => 400
+
+            ];
+            return response()->json($data, 400);
+        }
+
 
         $users  = User::create([
             'name' => $request->name,
             'email' => $request->email,
             'password' => $request->password
         ]);
-       
-        if(!$users){
-            $data=[
-                'message'=>'Error al crear el usuarios',
-                'status' => 500
-    
-            ];
-            return response()->json($data,500);
 
+        if (!$users) {
+            $data = [
+                'message' => 'Error al crear el usuarios',
+                'status' => 500
+
+            ];
+            return response()->json($data, 500);
         }
 
 
-        $data=[
-            'message'=>$users,
+        $data = [
+            'message' => $users,
             'status' => 201
 
         ];
-        return response()->json($data,201);
-
+        return response()->json($data, 201);
     }
 
 
-    public function finduser(){
-        $data=[];
-       $user = User::all();
-       if($user->isEmpty()){
-        $data=[
-            'message'=>'No hay usuarios registrados',
-            'status' => 200
-        ];
-       }
-       else{
-        $data=[
-            'users' => $user,
-            'status' => 200
-        ];
-       }
-       return response()->json($data, 200);
+    public function index()
+    {
+        $data = [];
+        $user = User::all();
 
-    }
+        if ($user->isEmpty()) {
+            $data = [
+                'message' => 'No hay usuarios registrados',
+                'status' => 200
+            ];
+
+        } else {
+            $data = [
+                'users' => $user,
+                'status' => 200
+            ];
+        }
+        return response()->json($data, 200);
     
+    }
 }
